@@ -22,7 +22,8 @@ The plugin will :
 	<repositories>
 		<repository>
 			<id>scm2artifact-repo</id>
-		<url>https://raw.github.com/jrialland/scm2artifact-maven-plugin/mvn-repo</url>
+		<url>https://github.com/jrialland/scm2artifact-maven-plugin/raw/master/mvn-repo</url>
+		
 		</repository>
 	</repositories>
 ```
@@ -33,12 +34,13 @@ The plugin will :
 			<artifactId>scm2artifact-maven-plugin</artifactId>
 			<executions>
 				<execution>
+					<id>jackson-core-from-github</id>
 					<goals>
 						<goal>scm2artifact</goal>
 					</goals>
 					<configuration>
-						<scmUrl>scm:git:https://github.com/FasterXML/jackson-core.git</scmUrl><!-- scm url-->
-						<mavenGoal>install</mavenGoal> (<!-- deploy by default -->
+						<scmUrl>scm:git:https://github.com/FasterXML/jackson-core.git</scmUrl><!-- scm url -->
+						<mavenGoal>install</mavenGoal> <!-- 'deploy' by default -->
 					</configuration>
 				</execution>
 			</executions>
