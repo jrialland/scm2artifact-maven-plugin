@@ -1,0 +1,12 @@
+language: java
+jdk: openjdk7
+
+before_install:
+  # Maven 3.1.1
+  - wget http://www.us.apache.org/dist/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz
+  - tar xvf apache-maven-3.1.1-bin.tar.gz > /dev/null
+  - export MVN_HOME=`pwd`/apache-maven-3.1.1
+  - export PATH=${MVN_HOME}/bin/:${PATH}
+  - mvn --version
+  
+script: mvn clean package integration-test -Prun-its
