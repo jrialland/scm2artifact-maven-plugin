@@ -22,7 +22,7 @@
 		<repository>
 			<id>localrepo</id>
 			<name>local repo</name>
-			<url>file://${project.basedir}/repo</url>
+			<url>file://${project.basedir}/mvn-repo</url>
 		</repository>
 	</distributionManagement>
 

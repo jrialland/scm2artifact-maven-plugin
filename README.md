@@ -22,7 +22,7 @@ The plugin will :
 	<repositories>
 		<repository>
 			<id>scm2artifact-repo</id>
-		<url></url>
+		<url>https://raw.github.com/jrialland/scm2artifact-maven-plugin/mvn-repo</url>
 		</repository>
 	</repositories>
 
