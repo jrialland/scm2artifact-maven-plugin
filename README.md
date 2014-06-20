@@ -18,15 +18,16 @@ just add the plugin configuration to your project specifying the git url of the 
 The plugin will :
 - checkout the project
 - call mvn clean install on it
-
+```xml
 	<repositories>
 		<repository>
 			<id>scm2artifact-repo</id>
 		<url>https://raw.github.com/jrialland/scm2artifact-maven-plugin/mvn-repo</url>
 		</repository>
 	</repositories>
-
+```
 	[...]
+```xml
 		<plugin>
 			<groupId>net.jr</groupId>
 			<artifactId>scm2artifact-maven-plugin</artifactId>
@@ -42,3 +43,4 @@ The plugin will :
 				</execution>
 			</executions>
 		</plugin>
+```
