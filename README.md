@@ -19,13 +19,21 @@ The plugin will :
 - checkout the project
 - call mvn clean install on it
 ```xml
-	<repositories>
-		<repository>
-			<id>scm2artifact-repo</id>
-		<url>https://github.com/jrialland/scm2artifact-maven-plugin/raw/master/mvn-repo</url>
-		
-		</repository>
-	</repositories>
+
+	<pluginRepositories>
+        <pluginRepository>
+            <id>scm2artifact-repo</id>
+            <name>scm2artifact-repo</name>
+            <url>https://github.com/jrialland/scm2artifact-maven-plugin/raw/master/mvn-repo/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
 ```
 	[...]
 ```xml
