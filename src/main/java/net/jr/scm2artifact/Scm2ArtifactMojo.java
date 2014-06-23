@@ -59,9 +59,6 @@ public class Scm2ArtifactMojo extends AbstractMojo {
 	@Parameter(defaultValue = "${localRepository}", required = true)
 	protected ArtifactRepository localRepository;
 
-	/**
-	 * The project on which we are working
-	 */
 	@Parameter(defaultValue = "${project}", required = true)
 	protected MavenProject project;
 
@@ -90,12 +87,21 @@ public class Scm2ArtifactMojo extends AbstractMojo {
 	@Parameter(property = "mavenGoals", defaultValue = "clean install")
 	private String mavenGoals;
 
+	/**
+	 * maven profiles to activate when building the project (default value : none)
+	 */
 	@Parameter(property = "maveProfiles", defaultValue = "")
 	private String mavenProfiles = "";
 
+	/**
+	 * whether to skip building the project if it has already been checked out (default value : false)
+	 */
 	@Parameter(property = "skipCheckoutIfPresent", defaultValue = "false")
 	private boolean skipCheckoutIfPresent = false;
 
+	/**
+	 * wehter to skip rebuilding the project if it can be resolved in repositories
+	 */
 	@Parameter(property = "skipBuildIfResolved", defaultValue = "true")
 	private boolean skipBuildIfResolved = true;
 
