@@ -27,6 +27,7 @@ import org.apache.maven.scm.repository.ScmRepository;
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
+import org.apache.maven.shared.invoker.InvocationResult;
 import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
@@ -110,7 +111,7 @@ public class Scm2ArtifactMojo extends AbstractMojo {
 
 		// create temporary directory
 		File home = new File(System.getProperty("java.io.tmpdir"),
-				"git2artifact");
+				"scm2artifact-maven-plugin");
 
 		getLogger().debug(
 				String.format("using %s as home directory", home.getPath()));
@@ -177,16 +178,28 @@ public class Scm2ArtifactMojo extends AbstractMojo {
 			InvocationRequest request = new DefaultInvocationRequest();
 			request.setPomFile(pom);
 			request.setGoals(Arrays.asList(mavenGoals.split(" ")));
-			request.setProfiles(Arrays.asList(mavenProfiles.split(" ")));
+			mavenProfiles = mavenProfiles.trim();
+			if(!mavenProfiles.isEmpty()) {
+				request.setProfiles(Arrays.asList(mavenProfiles.split(" ")));
+			}
 			try {
-				new DefaultInvoker().execute(request);
+				InvocationResult mvnResult = new DefaultInvoker().execute(request);
+				if(mvnResult.getExecutionException() != null) {
+					throw new MojoExecutionException("while building project" ,mvnResult.getExecutionException());
+				}
 			} catch (MavenInvocationException e) {
-				throw new MojoExecutionException("could not build", e);
+				throw new MojoExecutionException("while building project", e);
 			}
 		}
 
 	}
 
+	/**
+	 * tries to resolve a project, testing if it is available or not
+	 * 
+	 * @param p a project
+	 * @return true when the given project is known (i.e available)
+	 */
 	protected boolean canResolve(MavenProject p) {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -218,7 +231,7 @@ public class Scm2ArtifactMojo extends AbstractMojo {
 	 * reads a pom
 	 * 
 	 * @param pom
-	 * @return
+	 * @return a {@link MavenProject}
 	 * @throws ProjectBuildingException
 	 */
 	protected MavenProject readProjectFromPom(File pom)
@@ -228,6 +241,12 @@ public class Scm2ArtifactMojo extends AbstractMojo {
 		return mavenProjectBuilder.build(pom, configuration);
 	}
 
+	/**
+	 * runs the scm plugin and checkouts a given scm url
+	 * @param scmUrl location of the project to check (url may include credentials)
+	 * @param targetDir where to checkout
+	 * @throws ScmException on scm error
+	 */
 	protected static void checkout(String scmUrl, File targetDir)
 			throws ScmException {
 		ScmManager scmManager = new BasicScmManager();
@@ -238,6 +257,11 @@ public class Scm2ArtifactMojo extends AbstractMojo {
 
 	private static final char[] hexchars = "0123456789abcdef".toCharArray();
 
+	/**
+	 * computes the hex representation of the md5 hash of the given string
+	 * @param txt any text
+	 * @return a 32 characters wide hexadecimal string
+	 */
 	private static String hash(String txt) {
 		StringBuilder sb = new StringBuilder();
 		MessageDigest md;
