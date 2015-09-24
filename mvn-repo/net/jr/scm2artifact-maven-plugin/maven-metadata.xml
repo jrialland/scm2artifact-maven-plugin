@@ -3,10 +3,11 @@
   <groupId>net.jr</groupId>
   <artifactId>scm2artifact-maven-plugin</artifactId>
   <versioning>
-    <latest>1.0-SNAPSHOT</latest>
+    <latest>1.1-SNAPSHOT</latest>
     <versions>
       <version>1.0-SNAPSHOT</version>
+      <version>1.1-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20140623073108</lastUpdated>
+    <lastUpdated>20150924160949</lastUpdated>
   </versioning>
 </metadata>
